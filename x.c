@@ -1858,32 +1858,30 @@ kpress(XEvent *ev)
 	} else {
 		len = XLookupString(e, buf, sizeof buf, &ksym, NULL);
 	}
-	FILE *fp = fopen("/home/work/logger", "a");
 	// OLEG
 	// ksym which key
 	// e->state which modifiers
-	fprintf(fp, "%d,", time(0));
+	printf("%d,", time(0));
 	// a == 97
 	// z == 122
 	// A == 65
 	// Z == 90
-	fprintf(fp, "%d,", ksym);
+	printf("%d,", ksym);
 	// alt 8
 	// ctrl 4
 	// shift 1
 	// windows 64
 	if( e->state & 64)
-	fprintf(fp, "+windows");
+	printf("+windows");
 	if( e->state & 8)
-	fprintf(fp, "+alt");
+	printf("+alt");
 	if( e->state & 4)
-	fprintf(fp, "+ctrl");
+	printf("+ctrl");
 	if( e->state & 1)
-	fprintf(fp, "+shift");
+	printf("+shift");
 	else
-	fprintf(fp, "%d", e->state);
-	fprintf(fp, "\n");
-	fclose(fp);
+	printf("%d", e->state);
+	printf("\n");
 	/* 1. shortcuts */
 	for (bp = shortcuts; bp < shortcuts + LEN(shortcuts); bp++) {
 		if (ksym == bp->keysym && match(bp->mod, e->state)) {

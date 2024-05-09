@@ -1858,30 +1858,7 @@ kpress(XEvent *ev)
 	} else {
 		len = XLookupString(e, buf, sizeof buf, &ksym, NULL);
 	}
-	// OLEG
-	// ksym which key
-	// e->state which modifiers
-	printf("%d,", time(0));
-	// a == 97
-	// z == 122
-	// A == 65
-	// Z == 90
-	printf("%d,", ksym);
-	// alt 8
-	// ctrl 4
-	// shift 1
-	// windows 64
-	if( e->state & 64)
-	printf("+windows");
-	if( e->state & 8)
-	printf("+alt");
-	if( e->state & 4)
-	printf("+ctrl");
-	if( e->state & 1)
-	printf("+shift");
-	else
-	printf("%d", e->state);
-	printf("\n");
+	printf("Key pressed: %s\n", XKeysymToString(XLookupKeysym(&ev->xkey,0)));
 	/* 1. shortcuts */
 	for (bp = shortcuts; bp < shortcuts + LEN(shortcuts); bp++) {
 		if (ksym == bp->keysym && match(bp->mod, e->state)) {

